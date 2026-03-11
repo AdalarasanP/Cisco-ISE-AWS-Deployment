@@ -1,0 +1,258 @@
+aws_region_primary       = "us-east-1"
+aws_region_secondary     = "us-west-2"
+
+vpc_name_east            = "replace-east-vpc-name"
+vpc_name_west            = "replace-west-vpc-name"
+
+subnet_cidr_block_east_1 = "10.0.10.0/26"
+subnet_cidr_block_east_2 = "10.0.10.64/26"
+subnet_cidr_block_east_3 = "10.0.10.128/26"
+subnet_cidr_block_east_5 = "10.0.20.0/28"
+subnet_cidr_block_east_6 = "10.0.20.16/28"
+
+subnet_cidr_block_west_1 = "10.1.10.0/26"
+subnet_cidr_block_west_2 = "10.1.10.64/26"
+subnet_cidr_block_west_3 = "10.1.10.128/26"
+subnet_cidr_block_west_5 = "10.1.20.0/28"
+subnet_cidr_block_west_6 = "10.1.20.16/28"
+
+DNSDomain    = "example.com"
+NameServer   = "8.8.8.8"
+NTPServer    = "pool.ntp.org"
+TimeZone     = "UTC"
+ERSapi       = "yes"
+OpenAPI      = "no"
+PXGridCloud  = "no"
+password     = "REPLACE_WITH_SECURE_SECRET"
+
+ise_config_east = [
+  {
+    hostname      = "USE1-ISEPAN01"
+    mgmt_ip       = "10.0.10.10"
+    key_name      = "replace-keypair-east"
+    instance_type = "m5.4xlarge"
+    storage_size  = 600
+    pxGrid        = "yes"
+  },
+  {
+    hostname      = "USE1-ISEPSN01"
+    mgmt_ip       = "10.0.10.70"
+    key_name      = "replace-keypair-east"
+    instance_type = "c5.4xlarge"
+    storage_size  = 600
+    pxGrid        = "no"
+  }
+]
+
+ise_config_west = [
+  {
+    hostname      = "USW2-ISEPAN01"
+    mgmt_ip       = "10.1.10.10"
+    key_name      = "replace-keypair-west"
+    instance_type = "m5.4xlarge"
+    storage_size  = 600
+    pxGrid        = "yes"
+  },
+  {
+    hostname      = "USW2-ISEPSN01"
+    mgmt_ip       = "10.1.10.70"
+    key_name      = "replace-keypair-west"
+    instance_type = "c5.4xlarge"
+    storage_size  = 600
+    pxGrid        = "no"
+  }
+]
+
+ise_aprop_nlb_east = {
+  name                             = "USE1-ISE-APROP-NLB"
+  internal                         = true
+  private_ip_1                     = "10.0.20.5"
+  private_ip_2                     = "10.0.20.21"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "1812-UDP" = {
+      port             = "1812"
+      protocol         = "UDP"
+      target_group_key = "1812-UDP"
+    }
+    "1813-UDP" = {
+      port             = "1813"
+      protocol         = "UDP"
+      target_group_key = "1813-UDP"
+    }
+  }
+}
+
+ise_prop_nlb_east = {
+  name                             = "USE1-ISE-PROP-NLB"
+  internal                         = true
+  private_ip_1                     = "10.0.20.6"
+  private_ip_2                     = "10.0.20.22"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "1812-UDP" = {
+      port             = "1812"
+      protocol         = "UDP"
+      target_group_key = "1812-UDP"
+    }
+    "1813-UDP" = {
+      port             = "1813"
+      protocol         = "UDP"
+      target_group_key = "1813-UDP"
+    }
+  }
+}
+
+ise_ras_nlb_east = {
+  name                             = "USE1-ISE-RAS-NLB"
+  internal                         = true
+  private_ip_1                     = "10.0.20.7"
+  private_ip_2                     = "10.0.20.23"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "1812-UDP" = {
+      port             = "1812"
+      protocol         = "UDP"
+      target_group_key = "1812-UDP"
+    }
+    "1813-UDP" = {
+      port             = "1813"
+      protocol         = "UDP"
+      target_group_key = "1813-UDP"
+    }
+  }
+}
+
+ise_tacacs_nlb_east = {
+  name                             = "USE1-ISE-TACACS-NLB"
+  internal                         = true
+  private_ip_1                     = "10.0.20.8"
+  private_ip_2                     = "10.0.20.24"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "49-TCP" = {
+      port             = "49"
+      protocol         = "TCP"
+      target_group_key = "49-TCP"
+    }
+  }
+}
+
+ise_aprop_nlb_west = {
+  name                             = "USW2-ISE-APROP-NLB"
+  internal                         = true
+  private_ip_1                     = "10.1.20.5"
+  private_ip_2                     = "10.1.20.21"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "1812-UDP" = {
+      port             = "1812"
+      protocol         = "UDP"
+      target_group_key = "1812-UDP"
+    }
+    "1813-UDP" = {
+      port             = "1813"
+      protocol         = "UDP"
+      target_group_key = "1813-UDP"
+    }
+  }
+}
+
+ise_prop_nlb_west = {
+  name                             = "USW2-ISE-PROP-NLB"
+  internal                         = true
+  private_ip_1                     = "10.1.20.6"
+  private_ip_2                     = "10.1.20.22"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "1812-UDP" = {
+      port             = "1812"
+      protocol         = "UDP"
+      target_group_key = "1812-UDP"
+    }
+    "1813-UDP" = {
+      port             = "1813"
+      protocol         = "UDP"
+      target_group_key = "1813-UDP"
+    }
+  }
+}
+
+ise_ras_nlb_west = {
+  name                             = "USW2-ISE-RAS-NLB"
+  internal                         = true
+  private_ip_1                     = "10.1.20.7"
+  private_ip_2                     = "10.1.20.23"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "1812-UDP" = {
+      port             = "1812"
+      protocol         = "UDP"
+      target_group_key = "1812-UDP"
+    }
+    "1813-UDP" = {
+      port             = "1813"
+      protocol         = "UDP"
+      target_group_key = "1813-UDP"
+    }
+  }
+}
+
+ise_tacacs_nlb_west = {
+  name                             = "USW2-ISE-TACACS-NLB"
+  internal                         = true
+  private_ip_1                     = "10.1.20.8"
+  private_ip_2                     = "10.1.20.24"
+  preserve_client_ip               = true
+  enable_cross_zone_load_balancing = true
+  tags = {
+    domain = "Network"
+  }
+  listeners = {
+    "49-TCP" = {
+      port             = "49"
+      protocol         = "TCP"
+      target_group_key = "49-TCP"
+    }
+  }
+}
+
+ise_natgw_name_east        = "USE1-ISE"
+ise_natgw_name_use1b       = "NAT-B"
+ise_natgw_name_use1c       = "NAT-C"
+ise_natgw_private_ip_use1b = "10.0.20.9"
+ise_natgw_private_ip_use1c = "10.0.20.25"
+
+ise_natgw_name_west        = "USW2-ISE"
+ise_natgw_name_usw2b       = "NAT-B"
+ise_natgw_name_usw2c       = "NAT-C"
+ise_natgw_private_ip_usw2b = "10.1.20.9"
+ise_natgw_private_ip_usw2c = "10.1.20.25"

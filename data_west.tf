@@ -1,0 +1,90 @@
+####################################################################################
+#WEST CONFIG EC2 AND EBS
+####################################################################################
+# data "aws_ami" "cisco_ise_ami_west" {
+#   provider    = aws.west
+#   most_recent = true
+
+#   filter {
+#     name   = "name"
+#     values = ["*Cisco Identity Services Engine (ISE) v3.3*"]
+#   }
+
+#   filter {
+#     name   = "state"
+#     values = ["available"]
+#   }
+
+# }
+
+data "aws_ebs_default_kms_key" "current_west" {
+  provider = aws.west
+}
+
+####################################################################################
+#WEST CONFIG VPC and SUBNET
+####################################################################################
+data "aws_vpcs" "selected_vpc_west" {
+  provider = aws.west
+  tags = {
+    Name = var.vpc_name_west
+  }
+}
+
+data "aws_vpc" "selected_vpc_details_west" {
+  provider = aws.west
+  id       = data.aws_vpcs.selected_vpc_west.ids[0]
+}
+
+data "aws_subnet" "selected_subnet_west_1" {
+  provider = aws.west
+  vpc_id   = data.aws_vpc.selected_vpc_details_west.id
+
+  filter {
+    name   = "cidrBlock"
+    values = [var.subnet_cidr_block_west_1]
+  }
+}
+
+
+data "aws_subnet" "selected_subnet_west_2" {
+  provider = aws.west
+  vpc_id   = data.aws_vpc.selected_vpc_details_west.id
+
+  filter {
+    name   = "cidrBlock"
+    values = [var.subnet_cidr_block_west_2]
+  }
+}
+
+data "aws_subnet" "selected_subnet_west_3" {
+  provider = aws.west
+  vpc_id   = data.aws_vpc.selected_vpc_details_west.id
+
+  filter {
+    name   = "cidrBlock"
+    values = [var.subnet_cidr_block_west_3]
+  }
+}
+
+data "aws_subnet" "selected_subnet_west_5" {
+  provider = aws.west
+  vpc_id   = data.aws_vpc.selected_vpc_details_west.id
+
+  filter {
+    name   = "cidrBlock"
+    values = [var.subnet_cidr_block_west_5]
+  }
+}
+
+data "aws_subnet" "selected_subnet_west_6" {
+  provider = aws.west
+  vpc_id   = data.aws_vpc.selected_vpc_details_west.id
+
+  filter {
+    name   = "cidrBlock"
+    values = [var.subnet_cidr_block_west_6]
+  }
+}
+
+
